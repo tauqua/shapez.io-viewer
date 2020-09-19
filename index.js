@@ -252,17 +252,7 @@ function renderShape(layers) {
 
         case enumSubShape.circle: {
           context.beginPath();
-          context.moveTo(
-            insetPadding + -quadrantHalfSize,
-            -insetPadding + quadrantHalfSize
-          );
-          context.arc(
-            insetPadding + -quadrantHalfSize,
-            -insetPadding + quadrantHalfSize,
-            quadrantSize * layerScale,
-            -Math.PI * 0.5,
-            0
-          );
+          context.beginCircle(0, 0, 3);
           context.closePath();
           break;
         }
