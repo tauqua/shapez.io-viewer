@@ -183,7 +183,7 @@ function renderShape(layers) {
   for (let layerIndex = 0; layerIndex < layers.length; ++layerIndex) {
     const quadrants = layers[layerIndex];
 
-    const layerScale = Math.max(0.1, 0.9 - layerIndex * 0.22);
+    const layerScale = Math.max(0.1, 0.9 - layerIndex * 0.3);
 
     for (let quadrantIndex = 0; quadrantIndex < 4; ++quadrantIndex) {
       if (!quadrants[quadrantIndex]) {
@@ -202,7 +202,7 @@ function renderShape(layers) {
 
       context.fillStyle = enumColorsToHexCode[color];
       context.strokeStyle = "#555";
-      context.lineWidth = 1;
+      context.lineWidth = 0.5;
 
       const insetPadding = 0.0;
 
@@ -252,7 +252,9 @@ function renderShape(layers) {
 
         case enumSubShape.circle: {
           context.beginPath();
-          context.beginCircle(0, 0, 3);
+          const dims = quadrantSize * layerScale;
+          const moveInwards = dims * 0.4;
+          context.beginCircle(0, 0, moveInwards);
           context.closePath();
           break;
         }
