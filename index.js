@@ -195,15 +195,13 @@ function renderShape(layers) {
       }
       const { subShape, color } = segments[segmentIndex];
 
-
       const spacer = 2
-
 
       context.translate(0, -(quadrantHalfSize + spacer));
 
       context.fillStyle = enumColorsToHexCode[color];
       context.strokeStyle = "#555";
-      context.lineWidth = 0.5;
+      context.lineWidth = 0.25;
 
       const insetPadding = 0.0;
 
