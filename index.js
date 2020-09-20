@@ -186,18 +186,18 @@ function renderShape(layers) {
     const segments = layers[layerIndex];
 
     const layerScale = Math.max(0.1, 0.9 - layerIndex * 0.3);
-
+    
     for (let segmentIndex = 0; segmentIndex < segments.length; ++segmentIndex) {
+      const rotation = radians(360/segments.length);
+      context.rotate(rotation);
       if (!segments[segmentIndex]) {
         continue;
       }
       const { subShape, color } = segments[segmentIndex];
 
-      const rotation = radians(360/segments.length);
 
       const spacer = 2
 
-      context.rotate(rotation);
 
       context.translate(0, -(quadrantHalfSize + spacer));
 
