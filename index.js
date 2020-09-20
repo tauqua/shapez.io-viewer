@@ -120,28 +120,30 @@ function fromShortKey(key) {
   let layers = [];
   for (let i = 0; i < sourceLayers.length; ++i) {
     const text = sourceLayers[i];
-    if (text.length !== 8) {
-      throw new Error("Invalid layer: '" + text + "' -> must be 8 characters");
+    if (text.length % 2 !== 0) {
+      throw new Error("Invalid layer: '" + text + "' -> must be even number of characters");
     }
     
     if (text === "--".repeat(4)) {
       throw new Error("Empty layers are not allowed");
     }
     
-    if (!layerRegex.test(text)) {
-      throw new Error("Invalid syntax in layer " + (i + 1));
-    }
+    // if (!layerRegex.test(text)) {
+    //   throw new Error("Invalid syntax in layer " + (i + 1));
+    // }
     
-    const quads = [null, null, null, null];
-    for (let quad = 0; quad < 4; ++quad) {
-      const shapeText = text[quad * 2 + 0];
+    const numSegs = text.length / 2
+
+    const segs = Array(numSegs).fill(null)
+    for (let seg = 0; seg < numSegs; ++seg) {
+      const shapeText = text[seg * 2 + 0];
       const subShape = enumShortcodeToSubShape[shapeText];
-      const color = enumShortcodeToColor[text[quad * 2 + 1]];
+      const color = enumShortcodeToColor[text[seg * 2 + 1]];
       if (subShape) {
         if (!color) {
           throw new Error("Invalid shape color key: " + key);
         }
-        quads[quad] = {
+        segs[seg] = {
           subShape,
           color,
         };
@@ -149,7 +151,7 @@ function fromShortKey(key) {
         throw new Error("Invalid shape key: " + shapeText);
       }
     }
-    layers.push(quads);
+    layers.push(segs);
   }
 
   return layers;
@@ -181,24 +183,23 @@ function renderShape(layers) {
   context.fill();
 
   for (let layerIndex = 0; layerIndex < layers.length; ++layerIndex) {
-    const quadrants = layers[layerIndex];
+    const segments = layers[layerIndex];
 
     const layerScale = Math.max(0.1, 0.9 - layerIndex * 0.3);
 
-    for (let quadrantIndex = 0; quadrantIndex < 4; ++quadrantIndex) {
-      if (!quadrants[quadrantIndex]) {
+    for (let segmentIndex = 0; segmentIndex < segments.length; ++segmentIndex) {
+      if (!segments[segmentIndex]) {
         continue;
       }
-      const { subShape, color } = quadrants[quadrantIndex];
+      const { subShape, color } = segments[segmentIndex];
 
-      const quadrantPos = arrayQuadrantIndexToOffset[quadrantIndex];
-      const centerQuadrantX = quadrantPos.x * quadrantHalfSize;
-      const centerQuadrantY = quadrantPos.y * quadrantHalfSize;
+      const rotation = radians(360/segments.length);
 
-      const rotation = radians(quadrantIndex * 90);
+      const spacer = 2
 
-      context.translate(centerQuadrantX, centerQuadrantY);
       context.rotate(rotation);
+
+      context.translate(quadrantHalfSize + spacer, 0);
 
       context.fillStyle = enumColorsToHexCode[color];
       context.strokeStyle = "#555";
@@ -267,8 +268,8 @@ function renderShape(layers) {
       context.fill();
       context.stroke();
 
-      context.rotate(-rotation);
-      context.translate(-centerQuadrantX, -centerQuadrantY);
+      // context.rotate(-rotation);
+      context.translate(-(quadrantHalfSize + spacer), 0);
     }
   }
 
