@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>
-      shapez.io shape generator
+      Sigil generator
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="index.css" media="all" />
@@ -54,15 +54,15 @@
 
         <p>
           Sigils can be generated with a <strong>short key</strong>.
-          Each sigil consists of up to 4 layers, and each layers consists of 4
-          quadrants. Sigil codes start from the upper right quadrant and move clockwise.
+          Each sigil consists of up to 4 layers, and each layers consists of any number of segments. 
+          Sigil codes start from the top and move clockwise.
         </p>
         <br />
         <p>
-          Each quadrant is described via a pair of letters - An
+          Each segment is described via a pair of letters - An
           <strong>uppercase letter describing the sigil</strong>, followed
           by a <strong>lowercase letter describing its color</strong>. If the
-          quadrant is empty, <code>--</code> is used
+          segment is empty, <code>--</code> is used
         </p>
         <br />
         <p>
@@ -76,8 +76,6 @@
             <ul>
               <li><code>C</code> Circle</li>
               <li><code>R</code> Rectangle</li>
-              <li><code>W</code> Windmill / Fan</li>
-              <li><code>S</code> Star</li>
             </ul>
           </div>
           <div class="col">
@@ -138,8 +136,7 @@
           const examples = [
             ["CwCwCwCw", "White circle"],
             ["----RuRu", "Half rectangle"],
-            ["CgScScCg", "Circles and stars mixed"],
-            ["RpRpRpRp:CwCwCwCw", "Layering example"],
+            ["RpRpRp:CwCwCwCwCw", "Layering example"],
           ];
           for (let i = 0; i < examples.length; ++i) {
             const [key, desc] = examples[i];

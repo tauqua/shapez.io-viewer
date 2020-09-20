@@ -199,7 +199,7 @@ function renderShape(layers) {
 
       context.rotate(rotation);
 
-      context.translate(quadrantHalfSize + spacer, 0);
+      context.translate(0, -(quadrantHalfSize + spacer));
 
       context.fillStyle = enumColorsToHexCode[color];
       context.strokeStyle = "#555";
@@ -211,11 +211,12 @@ function renderShape(layers) {
         case enumSubShape.rect: {
           context.beginPath();
           const dims = quadrantSize * layerScale;
+          const moveInwards = dims * 0.3;
           context.rect(
-            insetPadding + -quadrantHalfSize,
-            -insetPadding + quadrantHalfSize - dims,
-            dims,
-            dims
+            -moveInwards,
+            -moveInwards,
+            moveInwards * 2,
+            moveInwards * 2
           );
 
           break;
@@ -269,7 +270,7 @@ function renderShape(layers) {
       context.stroke();
 
       // context.rotate(-rotation);
-      context.translate(-(quadrantHalfSize + spacer), 0);
+      context.translate(0, (quadrantHalfSize + spacer));
     }
   }
 
